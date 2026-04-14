@@ -10,20 +10,20 @@ RUN apk add --no-cache git
 
 # Copy go.mod files first (for caching)
 COPY shared/go.mod shared/go.sum ./shared/
-COPY user-service/go.mod user-service/go.sum ./user-service/
+COPY product-service/go.mod product-service/go.sum ./product-service/
 
 # Copy shared module
 COPY shared/ ./shared/
 
 # Set working directory
-WORKDIR /app/user-service
+WORKDIR /app/product-service
 
 # Cache dependencies
 RUN --mount=type=cache,target=/go/pkg/mod \
     go mod download
 
 # Copy application source
-COPY user-service/ .
+COPY product-service/ .
 
 # Build with cache
 RUN --mount=type=cache,target=/go/pkg/mod \
@@ -33,6 +33,6 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 # ---------- Runtime Stage ----------
 FROM alpine:latest
 WORKDIR /root/
-COPY --from=builder /app/user-service/main .
-EXPOSE 8081
+COPY --from=builder /app/product-service/main .
+EXPOSE 8082
 CMD ["./main"]
