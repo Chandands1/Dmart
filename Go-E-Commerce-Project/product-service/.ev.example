@@ -1,0 +1,9 @@
+SERVER_PORT=8082
+SERVER_ENV=development
+
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/product_db?sslmode=disable
+
+REDIS_URL=redis://localhost:6379/1
+
+JWT_SECRET=super-secret-jwt-key-change-in-production
+JWT_EXPIRY=7200
